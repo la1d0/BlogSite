@@ -38,7 +38,7 @@ class Article(models.Model):
                                        verbose_name='Время изменения',
                                        )
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-                                       default=Status.DRAFT,
+                                       default=Status.PUBLISHED,
                                        verbose_name='Статус',
                                        )
     cat = models.ForeignKey('Category',

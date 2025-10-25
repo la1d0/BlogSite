@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-hello!
+{% for a in articles %}
+<h2>{{ a.title }}</h2>
+<a href="{% url 'post' a.slug %}">читать статью</a>
+{% endfor %}
 {% endblock %}

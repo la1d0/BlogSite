@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.template.defaultfilters import slugify
 from django.views import View
-from django.views.generic import ListView, TemplateView, CreateView
+from django.views.generic import ListView, TemplateView, CreateView, DetailView
 
 from .forms import AddArticleForm
 from .models import Article
@@ -9,7 +9,7 @@ from .models import Article
 
 class HomePage(ListView):
     template_name = 'blog/index.html'
-    context_object_name = 'tasks'
+    context_object_name = 'articles'
     extra_context = {
         'title': 'Main Page',
     }
@@ -18,8 +18,14 @@ class HomePage(ListView):
         return Article.published.all()
 
 
-class ShowPost(View):
-    pass
+class ShowPost(DetailView):
+    model = Article
+    template_name = 'blog/post.html'
+    context_object_name = 'post'
+    slug_url_kwarg = 'post_slug'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Article.published, slug=self.kwargs[self.slug_url_kwarg])
 
 
 class BlogCategory(View):
